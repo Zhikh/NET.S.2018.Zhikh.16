@@ -3,56 +3,76 @@ using System.Collections.Generic;
 
 namespace Task1.Logic
 {
+    /// <summary>
+    /// Unbalanced tree
+    /// </summary>
+    /// <typeparam name="T"> Type of value for inserting </typeparam>
     public sealed class BinarySearchTree<T>
     {
+        #region Fields
         private Node<T> _head;
         private IComparer<T> _comparer;
+        #endregion
 
-        public int Count { get; private set; }
-
+        #region Public methods
+        /// <summary>
+        /// Initialize BinarySearchTree
+        /// </summary>
+        /// <param name="comparer"> Protocol for comparing values of type T </param>
+        /// <exception cref="ArgumentNullException"> If T hasn't default comparer </exception>
         public BinarySearchTree(IComparer<T> comparer = null)
         {
             _comparer = comparer ?? (Comparer<T>.Default ?? throw new ArgumentNullException("Comparer's indefined for type of T!"));
         }
 
-        public BinarySearchTree(T value, IComparer<T> comparer = null) : this (comparer)
+        /// <summary>
+        /// Initialize BinarySearchTree
+        /// </summary>
+        /// <param name="value"> Value for inserting </param>
+        /// <param name="comparer"> Protocol for comparing values of type T </param>
+        /// <exception cref="ArgumentNullException"> If T hasn't default comparer </exception>
+        public BinarySearchTree(T value, IComparer<T> comparer = null) : this(comparer)
         {
             _head = new Node<T>
             {
-                Data = value
+                Value = value
             };
 
             Count++;
         }
-        
+
+        /// <summary>
+        /// Count of elements in tree
+        /// </summary>
+        public int Count { get; private set; }
+
+        /// <summary>
+        /// Add value to tree
+        /// </summary>
+        /// <param name="value"> Value for inserting </param>
         public void Add(T value)
         {
-            //if (_head == null)
-            //{
-            //    _head = new Node<T>
-            //    {
-            //        Data = value
-            //    };
-            //}
-            //else
-            //{
-            //    InsertValue(_head, value);
-            //}
-
-            // create a new Node instance
-            var n = new Node<T>()
+            var node = new Node<T>()
             {
-                Data = value
+                Value = value
             };
 
-            int result;
+            if (_head == null)
+            {
+                _head = node;
+                return;
+            }
+
+            int result = 0;
             
             Node<T> current = _head, parent = null;
             while (current != null)
             {
-                result = _comparer.Compare(current.Data, value);
+                result = _comparer.Compare(current.Value, value);
                 if (result == 0)
+                {
                     return;
+                }
                 else if (result > 0)
                 {
                     parent = current;
@@ -66,23 +86,31 @@ namespace Task1.Logic
             }
             
             Count++;
-            if (parent == null)
-                _head = n;
+            if (result > 0)
+            {
+                parent.Left = node;
+            }
             else
             {
-                result = _comparer.Compare(parent.Data, value);
-                if (result > 0)
-                    parent.Left = n;
-                else
-                    parent.Right = n;
+                parent.Right = node;
             }
         }
 
+        /// <summary>
+        /// Use in base preorder of tree
+        /// </summary>
+        /// <returns> IEnumerator </returns>
+        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerator<T> GetEnumerator()
         {
             return Preorder().GetEnumerator();
         }
-        
+
+        /// <summary>
+        /// Move in direction of: root, left child, right child
+        /// </summary>
+        /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Preorder()
         {
             if (_head == null)
@@ -93,7 +121,11 @@ namespace Task1.Logic
             return GetValuePreorder(_head);
         }
 
-        
+        /// <summary>
+        /// Move in direction of: left child, root, right child
+        /// </summary>
+        /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Inorder()
         {
             if (_head == null)
@@ -103,7 +135,12 @@ namespace Task1.Logic
 
             return GetValueInorder(_head);
         }
-        
+
+        /// <summary>
+        /// Move in direction of: left child, right child, root
+        /// </summary>
+        /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Postorder()
         {
             if (_head == null)
@@ -113,49 +150,20 @@ namespace Task1.Logic
 
             return GetValuePostorder(_head);
         }
-
-        // delete finding node
-        // insert his value in tree
+        
         public void Remove(T value)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         #region Private method
-        private Node<T> InsertValue(Node<T> node, T value)
-        {
-            if (node == null)
-            {
-                node = new Node<T>
-                {
-                    Data = value
-                };
-
-                return node;
-            }
-            else
-            {
-                if (_comparer.Compare(node.Data, value) < 0)
-                {
-                    node.Right = InsertValue(node.Right, value);
-
-                    return node.Right;
-                }
-                else
-                {
-                    node.Left = InsertValue(node.Left, value);
-
-                    return node.Left;
-                }
-            }
-        }
-
         // root, left child, right child
         private IEnumerable<T> GetValuePreorder(Node<T> node)
         {
             if (node != null)
             {
-                yield return node.Data;
+                yield return node.Value;
 
                 foreach (var element in GetValuePreorder(node.Left))
                 {
@@ -174,19 +182,17 @@ namespace Task1.Logic
         {
             if (node != null)
             {
-
                 foreach (var element in GetValueInorder(node.Left))
                 {
                     yield return element;
                 }
 
-                yield return node.Data;
+                yield return node.Value;
 
                 foreach (var element in GetValueInorder(node.Right))
                 {
                     yield return element;
                 }
-
             }
         }
 
@@ -195,7 +201,6 @@ namespace Task1.Logic
         {
             if (node != null)
             {
-
                 foreach (var element in GetValuePostorder(node.Left))
                 {
                     yield return element;
@@ -206,7 +211,7 @@ namespace Task1.Logic
                     yield return element;
                 }
 
-                yield return node.Data;
+                yield return node.Value;
             }
         }
         #endregion
