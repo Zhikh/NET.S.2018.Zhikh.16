@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Task1.Tests.Additional_types;
+﻿using System.Collections.Generic;
+using Task1.Tests.AdditionalTypes;
 
 namespace Task1.Tests.Copmarers
 {
@@ -45,8 +41,10 @@ namespace Task1.Tests.Copmarers
             {
                 return 1;
             }
+            
+            StringComparer comparer = new StringComparer();
 
-            return 0;
+            return comparer.Compare(left.Name, right.Name);
         }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Task1.Tests.Additional_types
+namespace Task1.Tests.AdditionalTypes
 {
     public sealed class Book
     {
