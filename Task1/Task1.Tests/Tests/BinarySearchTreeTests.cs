@@ -20,6 +20,8 @@ namespace Task1.Tests
         private static BinarySearchTree<string> stringTreeCustomer;
         
         private static BinarySearchTree<Book> bookTreeCustomer;
+
+        private static BinarySearchTree<Point> pointTreeCustomer;
         #endregion
 
         #region Books
@@ -110,7 +112,7 @@ namespace Task1.Tests
             }
         };
 
-        private Book[][] _resultPreorder =
+        private Book[][] _resultBookPreorder =
         {
             new Book[]
             {
@@ -196,7 +198,7 @@ namespace Task1.Tests
             }
         };
 
-        private Book[][] _resultPostorder =
+        private Book[][] _resultBookPostorder =
         {
             new Book[]
             {
@@ -282,7 +284,7 @@ namespace Task1.Tests
             }
         };
 
-        private Book[][] _resultInorder =
+        private Book[][] _resultBookInorder =
         {
             new Book[]
             {
@@ -365,6 +367,48 @@ namespace Task1.Tests
                     Author = "Author2",
                     Pages = 589
                 }
+            }
+        };
+        #endregion
+
+        #region Point
+        private Point[][] _sourcePoint =
+        {
+            new Point[]
+            {
+                new Point(1, 2),
+                new Point (1, 1),
+                new Point(3, 4)
+            }
+        };
+
+        private Point[][] _resultPointPreorder =
+        {
+            new Point[]
+            {
+                new Point(1, 2),
+                new Point (1, 1),
+                new Point(3, 4)
+            }
+        };
+
+        private Point[][] _resultPointInorder =
+        {
+            new Point[]
+            {
+                new Point (1, 1),
+                new Point(1, 2),
+                new Point(3, 4)
+            }
+        };
+
+        private Point[][] _resultPointPostorder =
+        {
+            new Point[]
+            {
+                new Point (1, 1),
+                new Point(3, 4),
+                new Point(1, 2)
             }
         };
         #endregion
@@ -379,12 +423,29 @@ namespace Task1.Tests
             stringTreeCustomer = new BinarySearchTree<string>(new Copmarers.StringComparer());
             
             bookTreeCustomer = new BinarySearchTree<Book>(new BookComparer());
+
+            pointTreeCustomer = new BinarySearchTree<Point>(new PointComparer());
         }
         #endregion
 
         #region Tests
 
         #region Exceptions
+        [Test]
+        public void GetEnumerator_EmptyTree_InvalidOperationException()
+            => Assert.Catch<InvalidOperationException>(() =>  new BinarySearchTree<Book>().GetEnumerator());
+
+        [Test]
+        public void Preorder_EmptyTree_InvalidOperationException()
+            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Preorder());
+
+        [Test]
+        public void Inorder_EmptyTree_InvalidOperationException()
+            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Inorder());
+
+        [Test]
+        public void Postorder_EmptyTree_InvalidOperationException()
+            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Postorder());
         #endregion
 
         #region Preorder 
@@ -454,13 +515,31 @@ namespace Task1.Tests
             int i = 0;
             foreach (var array in _sourceBooks)
             {
-                int length = _resultPreorder[i].Length;
+                int length = _resultBookPreorder[i].Length;
                 CreateTree(array, bookTreeCustomer, ref length);
 
                 var inumerator = bookTreeCustomer.Preorder();
                 var actual =  GetSequence(length, inumerator);
 
-                CollectionAssert.AreEqual(_resultPreorder[i++], actual);
+                CollectionAssert.AreEqual(_resultBookPreorder[i++], actual);
+            }
+        }
+        #endregion
+
+        #region Point
+        [Test]
+        public void Preorder_PointElementCustomerComparer_ElementAdded()
+        {
+            int i = 0;
+            foreach (var array in _sourcePoint)
+            {
+                int length = _resultPointPreorder[i].Length;
+                CreateTree(array, pointTreeCustomer, ref length);
+
+                var inumerator = pointTreeCustomer.Preorder();
+                var actual = GetSequence(length, inumerator);
+
+                CollectionAssert.AreEqual(_resultPointPreorder[i++], actual);
             }
         }
         #endregion
@@ -534,13 +613,31 @@ namespace Task1.Tests
             int i = 0;
             foreach (var array in _sourceBooks)
             {
-                int length = _resultPostorder[i].Length;
+                int length = _resultBookPostorder[i].Length;
                 CreateTree(array, bookTreeCustomer, ref length);
 
                 var inumerator = bookTreeCustomer.Postorder();
                 var actual = GetSequence(length, inumerator);
 
-                CollectionAssert.AreEqual(_resultPostorder[i++], actual);
+                CollectionAssert.AreEqual(_resultBookPostorder[i++], actual);
+            }
+        }
+        #endregion
+
+        #region Point
+        [Test]
+        public void Postorder_PointElementCustomerComparer_ElementAdded()
+        {
+            int i = 0;
+            foreach (var array in _sourcePoint)
+            {
+                int length = _resultPointPostorder[i].Length;
+                CreateTree(array, pointTreeCustomer, ref length);
+
+                var inumerator = pointTreeCustomer.Postorder();
+                var actual = GetSequence(length, inumerator);
+
+                CollectionAssert.AreEqual(_resultPointPostorder[i++], actual);
             }
         }
         #endregion
@@ -614,13 +711,31 @@ namespace Task1.Tests
             int i = 0;
             foreach (var array in _sourceBooks)
             {
-                int length = _resultInorder[i].Length;
+                int length = _resultBookInorder[i].Length;
                 CreateTree(array, bookTreeCustomer, ref length);
 
                 var inumerator = bookTreeCustomer.Inorder();
                 var actual = GetSequence(length, inumerator);
 
-                CollectionAssert.AreEqual(_resultInorder[i++], actual);
+                CollectionAssert.AreEqual(_resultBookInorder[i++], actual);
+            }
+        }
+        #endregion
+
+        #region Point
+        [Test]
+        public void Inorder_PointElementCustomerComparer_ElementAdded()
+        {
+            int i = 0;
+            foreach (var array in _sourcePoint)
+            {
+                int length = _resultPointInorder[i].Length;
+                CreateTree(array, pointTreeCustomer, ref length);
+
+                var inumerator = pointTreeCustomer.Inorder();
+                var actual = GetSequence(length, inumerator);
+
+                CollectionAssert.AreEqual(_resultPointInorder[i++], actual);
             }
         }
         #endregion
