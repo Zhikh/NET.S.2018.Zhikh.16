@@ -5,6 +5,10 @@ namespace Task2.Logic.Events
 {
     public class LightArgs : EventArgs
     {
+        /// <summary>
+        /// Initialize color
+        /// </summary>
+        /// <param name="colour"></param>
         public LightArgs(ColourOption colour)
         {
             if (colour < 0)
@@ -15,6 +19,9 @@ namespace Task2.Logic.Events
             Colour = colour;
         }
 
+        /// <summary>
+        /// Colour of light
+        /// </summary>
         public ColourOption Colour { get; }
     }
 }

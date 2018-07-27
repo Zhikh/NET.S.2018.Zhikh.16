@@ -10,6 +10,18 @@ namespace Task2.Logic
         private Light[] _lights;
         private bool[][] _rules;
 
+        /// <summary>
+        /// Initialize TrafficLightCollection object
+        /// </summary>
+        /// <param name="lights"> Set of lights in traffic light </param>
+        /// <param name="rules"> Rules of turning on/off light: false - off, true - on. 
+        /// Index rule element should be equal index of light </param>
+        /// <exception cref="ArgumentNullException"> 
+        /// If lights is null,
+        /// if rules are null,
+        /// if one of rules is null
+        /// </exception>
+        /// <exception cref="ArgumentException"> If rule invalid for traffic light </exception>
         public TrafficLightCollection(IEnumerable<Light> lights, bool[][] rules)
         {
             if (lights == null)
@@ -43,8 +55,15 @@ namespace Task2.Logic
             Array.Copy(rules, _rules, rules.Count());
         }
 
+        /// <summary>
+        /// Number of lights
+        /// </summary>
         public int Count { get; }
 
+        /// <summary>
+        /// Get lights for current rule
+        /// </summary>
+        /// <returns> Set of lights that are turned on </returns>
         public IEnumerator<Light[]> GetEnumerator()
         {
             foreach (var rule in _rules)
@@ -56,6 +75,10 @@ namespace Task2.Logic
             }
         }
 
+        /// <summary>
+        /// Get lights for current rule
+        /// </summary>
+        /// <returns> Set of lights that are turned on </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

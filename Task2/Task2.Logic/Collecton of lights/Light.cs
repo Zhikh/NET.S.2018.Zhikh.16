@@ -6,6 +6,9 @@ namespace Task2.Logic
     {
         private string _color;
 
+        /// <summary>
+        /// Colour of light
+        /// </summary>
         public string Color
         {
             get

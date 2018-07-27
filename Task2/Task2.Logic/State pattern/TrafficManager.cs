@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Task2.Logic.StatePattern;
 
 namespace Task2.Logic.StatePattern
 {
