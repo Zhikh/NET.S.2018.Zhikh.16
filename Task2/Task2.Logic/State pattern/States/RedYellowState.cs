@@ -5,7 +5,7 @@ namespace Task2.Logic.StatePattern
     public class RedYellowState : ILightState
     {
         /// <summary>
-        /// State for light
+        /// Colour for light
         /// </summary>
         public ColourOption Colour => ColourOption.RedAndYellow;
 

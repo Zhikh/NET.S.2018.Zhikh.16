@@ -31,15 +31,15 @@ namespace Task2.Tests
         {
             new Light
             {
-                Color = "Red",
+                Colour = "Red",
             },
             new Light
             {
-                Color = "Yellow",
+                Colour = "Yellow",
             },
             new Light
             {
-                Color = "Green",
+                Colour = "Green",
             },
         };
 
@@ -81,7 +81,7 @@ namespace Task2.Tests
                 int j = 0;
                 foreach(var light in lights)
                 {
-                    Assert.AreEqual(_autoTrafficResult[i][j++], light.Color);
+                    Assert.AreEqual(_autoTrafficResult[i][j++], light.Colour);
                 }
                 i++;
             }

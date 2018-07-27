@@ -36,7 +36,7 @@ namespace Task2.Logic.Events
         /// Execute when clock time out event is happened
         /// </summary>
         /// <param name="sender"> Object who created event </param>
-        /// <param name="e"> Event inforfation </param>
+        /// <param name="e"> Event information </param>
         protected abstract void LightChanged(object sender, LightArgs e);
     }
 }

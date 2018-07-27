@@ -16,7 +16,7 @@ namespace Task2.Logic.Events
                 throw new ArgumentException($"The parametr {nameof(colour)} can't be negative value!");
             }
 
-            Colour = colour;
+            this.Colour = colour;
         }
 
         /// <summary>

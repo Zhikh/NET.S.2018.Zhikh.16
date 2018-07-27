@@ -4,25 +4,26 @@ namespace Task2.Logic
 {
     public sealed class Light
     {
-        private string _color;
+        private string _colour;
 
         /// <summary>
         /// Colour of light
         /// </summary>
-        public string Color
+        public string Colour
         {
             get
             {
-                return _color;
+                return _colour;
             }
+
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    throw new ArgumentNullException($"{nameof(Color)} can't be null or empty!");
+                    throw new ArgumentNullException($"{nameof(Colour)} can't be null or empty!");
                 }
 
-                _color = value;
+                _colour = value;
             }
         }
     }

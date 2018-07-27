@@ -23,8 +23,9 @@ namespace Task1.Logic
         public BinarySearchTree(IComparer<T> comparer = null)
         {
             _comparer = comparer ?? 
-                (Comparer<T>.Default as IComparer<T> ?? 
-                throw new ArgumentNullException("Comparer's indefined for type of T!"));
+                (Comparer<T>.Default is IComparer<T> ? Comparer<T>.Default
+                : throw new ArgumentNullException("Comparer's indefined for type of T!"));
+            
         }
 
         /// <summary>
@@ -99,13 +100,13 @@ namespace Task1.Logic
         }
 
         /// <summary>
-        /// Use in base preorder of tree
+        /// Use in base inorder of tree
         /// </summary>
         /// <returns> IEnumerator </returns>
         /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerator<T> GetEnumerator()
         {
-            return Preorder().GetEnumerator();
+            return Inorder().GetEnumerator();
         }
 
         /// <summary>
