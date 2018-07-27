@@ -22,7 +22,9 @@ namespace Task1.Logic
         /// <exception cref="ArgumentNullException"> If T hasn't default comparer </exception>
         public BinarySearchTree(IComparer<T> comparer = null)
         {
-            _comparer = comparer ?? (Comparer<T>.Default ?? throw new ArgumentNullException("Comparer's indefined for type of T!"));
+            _comparer = comparer ?? 
+                (Comparer<T>.Default as IComparer<T> ?? 
+                throw new ArgumentNullException("Comparer's indefined for type of T!"));
         }
 
         /// <summary>
