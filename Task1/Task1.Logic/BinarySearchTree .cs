@@ -13,6 +13,7 @@ namespace Task1.Logic
         #region Fields
         private Node<T> _root;
         private readonly IComparer<T> _comparer;
+        private int _version;
         #endregion
 
         #region Public methods
@@ -99,21 +100,34 @@ namespace Task1.Logic
             {
                 parent.Right = node;
             }
+
+            _version++;
         }
 
         /// <summary>
         /// Use in base inorder of tree
         /// </summary>
         /// <returns> IEnumerator </returns>
+        /// <exception cref="ArgumentException"> If collection is changed </exception>
         public IEnumerator<T> GetEnumerator()
         {
-            return Inorder().GetEnumerator();
+            int oldVersion = _version;
+
+            var result = Inorder().GetEnumerator();
+
+            if (oldVersion != _version)
+            {
+                throw new ArgumentException("Collection can't change during iteration!");
+            }
+
+            return result;
         }
 
         /// <summary>
         /// Move in direction of: root, left child, right child
         /// </summary>
         /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="ArgumentException"> If collection is changed </exception>
         public IEnumerable<T> Preorder()
         {
             if (IsEmpty())
@@ -121,13 +135,23 @@ namespace Task1.Logic
                 return null;
             }
 
-            return GetValuePreorder(_root);
+            int oldVersion = _version;
+
+            var result = GetValuePreorder(_root);
+
+            if (oldVersion != _version)
+            {
+                throw new ArgumentException("Collection can't change during iteration!");
+            }
+
+            return result;
         }
 
         /// <summary>
         /// Move in direction of: left child, root, right child
         /// </summary>
         /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="ArgumentException"> If collection is changed </exception>
         public IEnumerable<T> Inorder()
         {
             if (IsEmpty())
@@ -135,7 +159,40 @@ namespace Task1.Logic
                 return null;
             }
 
-            return GetValueInorder(_root);
+            int oldVersion = _version;
+
+            var result = GetValueInorder(_root);
+
+            if (oldVersion != _version)
+            {
+                throw new ArgumentException("Collection can't change during iteration!");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Move in direction of: left child, right child, root
+        /// </summary>
+        /// <returns> Collection of elements of tree </returns>
+        /// <exception cref="ArgumentException"> If collection is changed </exception>
+        public IEnumerable<T> Postorder()
+        {
+            if (IsEmpty())
+            {
+                return null;
+            }
+
+            int oldVersion = _version;
+
+            var result = GetValuePostorder(_root);
+
+            if (oldVersion != _version)
+            {
+                throw new ArgumentException("Collection can't change during iteration!");
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -147,20 +204,6 @@ namespace Task1.Logic
             return _root == null;
         }
 
-        /// <summary>
-        /// Move in direction of: left child, right child, root
-        /// </summary>
-        /// <returns> Collection of elements of tree </returns>
-        public IEnumerable<T> Postorder()
-        {
-            if (IsEmpty())
-            {
-                return null;
-            }
-
-            return GetValuePostorder(_root);
-        }
-        
         public void Remove(T value)
         {
             throw new NotImplementedException();
