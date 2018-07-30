@@ -430,24 +430,6 @@ namespace Task1.Tests
 
         #region Tests
 
-        #region Exceptions
-        [Test]
-        public void GetEnumerator_EmptyTree_InvalidOperationException()
-            => Assert.Catch<InvalidOperationException>(() =>  new BinarySearchTree<Book>().GetEnumerator());
-
-        [Test]
-        public void Preorder_EmptyTree_InvalidOperationException()
-            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Preorder());
-
-        [Test]
-        public void Inorder_EmptyTree_InvalidOperationException()
-            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Inorder());
-
-        [Test]
-        public void Postorder_EmptyTree_InvalidOperationException()
-            => Assert.Catch<InvalidOperationException>(() => new BinarySearchTree<Book>().Postorder());
-        #endregion
-
         #region Preorder 
 
         #region Integer

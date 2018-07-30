@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Task1.Logic
@@ -7,11 +8,11 @@ namespace Task1.Logic
     /// Unbalanced tree
     /// </summary>
     /// <typeparam name="T"> Type of value for inserting </typeparam>
-    public sealed class BinarySearchTree<T>
+    public sealed class BinarySearchTree<T> : IEnumerable<T>
     {
         #region Fields
-        private Node<T> _head;
-        private IComparer<T> _comparer;
+        private Node<T> _root;
+        private readonly IComparer<T> _comparer;
         #endregion
 
         #region Public methods
@@ -22,10 +23,11 @@ namespace Task1.Logic
         /// <exception cref="ArgumentNullException"> If T hasn't default comparer </exception>
         public BinarySearchTree(IComparer<T> comparer = null)
         {
-            _comparer = comparer ?? 
-                (Comparer<T>.Default is IComparer<T> ? Comparer<T>.Default
-                : throw new ArgumentNullException("Comparer's indefined for type of T!"));
-            
+            _comparer = comparer ??
+               (typeof(IComparable<T>).IsAssignableFrom(typeof(T)) ||
+               typeof(IComparable).IsAssignableFrom(typeof(T)) ?
+               _comparer = Comparer<T>.Default :
+               throw new ArgumentNullException("Comparer's indefined for type of T!"));
         }
 
         /// <summary>
@@ -36,7 +38,7 @@ namespace Task1.Logic
         /// <exception cref="ArgumentNullException"> If T hasn't default comparer </exception>
         public BinarySearchTree(T value, IComparer<T> comparer = null) : this(comparer)
         {
-            _head = new Node<T>
+            _root = new Node<T>
             {
                 Value = value
             };
@@ -60,15 +62,15 @@ namespace Task1.Logic
                 Value = value
             };
 
-            if (_head == null)
+            if (IsEmpty())
             {
-                _head = node;
+                _root = node;
                 return;
             }
 
             int result = 0;
             
-            Node<T> current = _head, parent = null;
+            Node<T> current = _root, parent = null;
             while (current != null)
             {
                 result = _comparer.Compare(current.Value, value);
@@ -103,7 +105,6 @@ namespace Task1.Logic
         /// Use in base inorder of tree
         /// </summary>
         /// <returns> IEnumerator </returns>
-        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerator<T> GetEnumerator()
         {
             return Inorder().GetEnumerator();
@@ -113,45 +114,51 @@ namespace Task1.Logic
         /// Move in direction of: root, left child, right child
         /// </summary>
         /// <returns> Collection of elements of tree </returns>
-        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Preorder()
         {
-            if (_head == null)
+            if (IsEmpty())
             {
-                throw new InvalidOperationException($"Object of {nameof(BinarySearchTree<T>)} haven't any element!");
+                return null;
             }
 
-            return GetValuePreorder(_head);
+            return GetValuePreorder(_root);
         }
 
         /// <summary>
         /// Move in direction of: left child, root, right child
         /// </summary>
         /// <returns> Collection of elements of tree </returns>
-        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Inorder()
         {
-            if (_head == null)
+            if (IsEmpty())
             {
-                throw new InvalidOperationException($"Object of {nameof(BinarySearchTree<T>)} haven't any element!");
+                return null;
             }
 
-            return GetValueInorder(_head);
+            return GetValueInorder(_root);
+        }
+
+        /// <summary>
+        /// Chech tree on cantaining elements
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEmpty()
+        {
+            return _root == null;
         }
 
         /// <summary>
         /// Move in direction of: left child, right child, root
         /// </summary>
         /// <returns> Collection of elements of tree </returns>
-        /// <exception cref="InvalidOperationException"> If tree hasn't any element! </exception>
         public IEnumerable<T> Postorder()
         {
-            if (_head == null)
+            if (IsEmpty())
             {
-                throw new InvalidOperationException($"Object of {nameof(BinarySearchTree<T>)} haven't any element!");
+                return null;
             }
 
-            return GetValuePostorder(_head);
+            return GetValuePostorder(_root);
         }
         
         public void Remove(T value)
@@ -216,6 +223,11 @@ namespace Task1.Logic
 
                 yield return node.Value;
             }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
         #endregion
     }
