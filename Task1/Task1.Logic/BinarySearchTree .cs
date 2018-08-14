@@ -11,8 +11,8 @@ namespace Task1.Logic
     public sealed class BinarySearchTree<T> : IEnumerable<T>
     {
         #region Fields
-        private Node<T> _root;
         private readonly IComparer<T> _comparer;
+        private Node<T> _root;
         private int _version;
         #endregion
 
@@ -108,12 +108,12 @@ namespace Task1.Logic
         /// Check tree on containing item
         /// </summary>
         /// <param name="item"> Item for finding </param>
-        /// <returns> If tree containts item, it's true, else - false </returns>
+        /// <returns> If tree contains item, it's true, else - false </returns>
         public bool Contains(T item)
             => IsContain(_root, item);
 
         /// <summary>
-        /// Use in base inorder of tree
+        /// Use in base in order of tree
         /// </summary>
         /// <returns> IEnumerator </returns>
         /// <exception cref="ArgumentException"> If collection is changed </exception>
@@ -204,7 +204,7 @@ namespace Task1.Logic
         }
 
         /// <summary>
-        /// Chech tree on cantaining elements
+        /// Check tree on containing any elements
         /// </summary>
         /// <returns></returns>
         public bool IsEmpty()
@@ -251,7 +251,11 @@ namespace Task1.Logic
 
             return true;
         }
-    
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
         #endregion
 
         #region Private method
@@ -311,12 +315,6 @@ namespace Task1.Logic
                 yield return node.Value;
             }
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
 
         private Node<T> FindNode(Node<T> node, T value, Node<T> parent)
         {
