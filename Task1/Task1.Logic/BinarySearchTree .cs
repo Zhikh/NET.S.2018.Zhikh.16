@@ -105,6 +105,14 @@ namespace Task1.Logic
         }
 
         /// <summary>
+        /// Check tree on containing item
+        /// </summary>
+        /// <param name="item"> Item for finding </param>
+        /// <returns> If tree containts item, it's true, else - false </returns>
+        public bool Contains(T item)
+            => IsContain(_root, item);
+
+        /// <summary>
         /// Use in base inorder of tree
         /// </summary>
         /// <returns> IEnumerator </returns>
@@ -389,6 +397,31 @@ namespace Task1.Logic
                     parent.Right = node;
                 }
             }
+        }
+
+        private bool IsContain(Node<T> node, T item)
+        {
+            if (node != null)
+            {
+                int result = _comparer.Compare(item, node.Value);
+
+                if (result == 0)
+                {
+                    return true;
+                }
+
+                if (result < 0)
+                {
+                    return IsContain(node.Left, item);
+                }
+
+                if (result > 0)
+                {
+                    return IsContain(node.Right, item);
+                }
+            }
+
+            return false;
         }
         #endregion
     }
