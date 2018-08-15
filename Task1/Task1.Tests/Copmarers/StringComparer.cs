@@ -4,6 +4,16 @@ namespace Task1.Tests.Copmarers
 {
     class StringComparer : IComparer<string>
     {
+        /// <summary>
+        /// Compare two books by number of pages
+        /// </summary>
+        /// <param name="left"> First element to copmare </param>
+        /// <param name="right"> Second element to compare </param>
+        /// <returns> 
+        /// A signed integer that indicates the relative values of left and right, as shown in the
+        /// following table.Value Meaning Less than zero left is less than right. Zero left equals right. Greater
+        /// than zero left is greater than right. 
+        /// </returns>
         public int Compare(string x, string y)
         {
             if (x == null && y == null)
