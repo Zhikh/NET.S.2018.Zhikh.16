@@ -225,7 +225,7 @@ namespace Task1.Logic
             }
 
             Node<T> parent = null,
-                node = FindNode(_root, value, parent);
+                node = FindNode(_root, value, ref parent);
 
             if (node == null)
             {
@@ -316,7 +316,7 @@ namespace Task1.Logic
             }
         }
 
-        private Node<T> FindNode(Node<T> node, T value, Node<T> parent)
+        private Node<T> FindNode(Node<T> node, T value, ref Node<T> parent)
         {
             if (node != null)
             {
@@ -331,11 +331,11 @@ namespace Task1.Logic
 
                 if (result > 0)
                 {
-                    return FindNode(node.Left, value, parent);
+                    return FindNode(node.Left, value, ref parent);
                 }
                 else if (result < 0)
                 {
-                    return FindNode(node.Right, value, parent);
+                    return FindNode(node.Right, value, ref parent);
                 }
             }
 
